@@ -1,31 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>WELCOME</title>
-        <link rel="stylesheet" href="/static/css/homePage.css">
+        <link rel="stylesheet" href="/static/css/homePage.css" />
     </head>
     <body>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <script>
+                alert("{{ message }}");
+              </script>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
         <button id="toggle-btn">☰</button>
         <div class="sidebar hidden" id="sidebar">
             <ul>
-                <li><button href="#"><b>Who will come?</b> </button></li>
-                <li><button href="#"><b>Who are invited?</b> </button></li>
-                <li><button href="#"><b>Exit</b></button></li>
+                <li><button onclick="location.href='/who-will-come'"><b>Who will come?</b></button></li>
+                <li><button onclick="location.href='/who-are-invited'"><b>Who are invited?</b></button></li>
+                <li><button onclick="location.href='/exit'"><b>Exit</b></button></li>
             </ul>
         </div>
-        <div class="main-content">
-        </div>
+        <div class="main-content"></div>
         <div class="wrapper">
             <h2>HELLO!!!</h2>
             <h3>You are invited to Vince Birthday Party!!!</h3>
             <p>Where??? On the Navarrete Residence Zone 7, Bulan Sorsogon
-                <br>When??? On November 13 3:00pm onwards</p>
-            <h3>WILL YOU COME?</h3>    
-            <button class="yes">OFCOURESE YES!</button>
-            <button class="no">sorry but no</button>
+                <br />When??? On November 13 3:00pm onwards</p>
+
+            {% if not is_invited %}
+                <!-- Show this if user is NOT invited -->
+                <div class="not-invited-message">
+                    <p>You are not invited to this party.<br />
+                    Want to contact the planner for an invitation?</p>
+                    <button onclick="location.href='/contact-planner'">Contact Planner</button>
+                </div>
+            {% else %}
+                <!-- Show RSVP choices or status if invited -->
+                {% if rsvp is none %}
+                    <!-- Only show if user hasn't RSVP’d yet -->
+                    <h3>WILL YOU COME?</h3>
+                    <form method="POST" action="/rsvp">
+                        <input type="hidden" name="response" value="1" />
+                        <button type="submit" class="yes">OF COURSE YES!</button>
+                    </form>
+
+                    <form method="POST" action="/rsvp">
+                        <input type="hidden" name="response" value="0" />
+                        <button type="submit" class="no">Sorry but no</button>
+                    </form>
+                {% else %}
+                    <!-- Only show if user already RSVP’d -->
+                    <div class="popup">
+                        <p>You have already RSVP’d: 
+                            <strong class="{{ 'coming' if rsvp == 1 else 'not-coming' }}">{{ 'Coming' if rsvp == 1 else 'Not Coming' }}</strong>
+                        </p>
+                        <form method="POST" action="/change-rsvp">
+                            <label>
+                                <input type="radio" name="response" value="1" required />
+                                <span>Coming</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="response" value="0" />
+                                <span>Not Coming</span>
+                            </label>
+                            <br />
+                            <button type="submit">Update RSVP</button>
+                        </form>
+                    </div>
+                {% endif %}
+            {% endif %}
         </div>
+
         <script src="/static/js/homePage.js"></script>
     </body>
 </html>

@@ -1,0 +1,101 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f3e5f5;
+    color: #4a148c;
+}
+
+.wrapper {
+    margin-left: 240px;
+    padding: 30px;
+    
+}
+
+h2 {
+    color: #6a1b9a;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+ul li {
+    margin: 10px 0;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-size: 18px;
+    text-align: center;
+}
+
+.wrapper ul li{
+    background-color: #e1bee7;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Sidebar toggle button */
+#toggle-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    background: #8e24aa;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 1100;
+}
+
+#toggle-btn:hover {
+    background-color: #6a1b9a;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100%;
+    background-color: #8e24aa;
+    color: white;
+    padding-top: 60px;
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 15px 20px;
+}
+
+.sidebar ul li button {
+    font-size: 15px;
+    color: white;
+    background: #8e24aa;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.sidebar ul li button:hover,
+.sidebar ul .selected {
+    background: #6a1b9a;
+}

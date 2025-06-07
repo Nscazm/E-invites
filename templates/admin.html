@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/css/admin.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Admin Menu</h2>
+        <button class="logout-button" onclick="location.href='/exit'"><b>Exit</b></button></li>
+    </div>
+
+    <div class="admin-wrapper">
+        <h1>Admin Dashboard</h1>
+
+        <section class="admin-section">
+            <h2>Manually Add Invitation</h2>
+            <form action="/admin/invite" method="POST" class="invite-form">
+                <input type="text" name="name" placeholder="Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <button type="submit">Invite</button>
+            </form>
+        </section>
+
+        <section class="admin-section">
+    <h2>All Invited Guests</h2>
+    <ul id="invited-list">
+        {% for person in invited %}
+            <li>
+                {{ person.name }} ({{ person.email }})
+                <form method="POST" action="{{ url_for('admin_send_email') }}" style="display:inline;">
+                    <input type="hidden" name="email" value="{{ person.email }}">
+                    <button type="submit">Send Email</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+
+
+        <section class="admin-section">
+            <h2>RSVP Responses</h2>
+            <div class="rsvp-group">
+                <div>
+                    <h3>Coming</h3>
+                    <ul class="people-list" id="coming-list">
+                        {% for person in coming %}
+                            <li>{{ person.name }} ({{ person.email }})</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>Not Coming</h3>
+                    <ul class="people-list" id="not-coming-list">
+                        {% for person in not_coming %}
+                            <li>{{ person.name }} ({{ person.email }})</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>No Response Yet</h3>
+                    <ul class="people-list" id="no-response-list">
+                        {% for person in no_response %}
+                            <li>{{ person.name }} ({{ person.email }})</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="admin-section">
+            <h2>Invitation Requests</h2>
+            <ul class="people-list" id="requests-list">
+                {% for person in requests %}
+                    <li>
+                        {{ person.name }} ({{ person.email }})
+                        <form method="POST" action="{{ url_for('admin_invite') }}" style="display:inline;">
+                            <input type="hidden" name="name" value="{{ person.name }}">
+                            <input type="hidden" name="email" value="{{ person.email }}">
+                            <button type="submit">Invite</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+
+    <script src="/static/js/admin.js"></script>
+</body>
+</html>

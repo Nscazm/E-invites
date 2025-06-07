@@ -14,13 +14,23 @@
                 <p>Please login to Continue</p>
             </div>
             <div class="login-container">
-                <form> <!--must add method and action that is connected to the backend :>-->
+                <form action="/submit" method="POST"> <!--must add method and action that is connected to the backend :>-->
                     <input type="text" name="name" placeholder="Please enter your name" required>
-                    <input type="text" name="email" placeholder="Please input your email" required>
+                    <input type="email" name="email" placeholder="Please input your email" required>
                     <button type="submit">LOG IN</button>
                 </form>
             </div>
         </div>
+        
         <script src="/static/js/loginPage.js"></script>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <script>
+      {% for category, message in messages %}
+        alert("{{ message }}");
+      {% endfor %}
+    </script>
+  {% endif %}
+{% endwith %}
     </body>
 </html>

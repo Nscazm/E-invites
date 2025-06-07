@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Who will come?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/comming.css">
+</head>
+<body>
+    <button id="toggle-btn">☰</button>
+    <div class="sidebar hidden" id="sidebar">
+        <ul>
+            <li><button class="selected" onclick="location.href='/who-will-come'"><b>Who will come?</b></button></li>
+            <li><button onclick="location.href='/who-are-invited'"><b>Who are invited?</b></button></li>
+            <li><button onclick="location.href='/exit'"><b>Exit</b></button></li>
+        </ul>
+    </div>
+
+    <div class="wrapper">
+        <h2>People Who Are Coming:</h2>
+        <ul>
+            {% for person in people %}
+                <li>{{ person.name }}</li>
+            {% else %}
+                <li>No one has confirmed yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script src="/static/js/comming.js"></script>
+</body>
+</html>

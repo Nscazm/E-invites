@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Invited List</title>
+        <meta name="viewport" content="width=device-width, intial,scale=1.0">
+        <link rel="stylesheet" href="/static/css/invited.css">
+    </head>
+    <body>
+        <button id="toggle-btn">☰</button>
+        <div class="sidebar hidden" id="sidebar">
+            <ul>
+                <li><button onclick="location.href='/who-will-come'"><b>Who will come?</b></button></li>
+                <li><button class="selected" onclick="location.href='/who-are-invited'"><b>Who are invited?</b></button></li>
+                <li><button onclick="location.href='/exit'"><b>Exit</b></button></li>
+            </ul>
+        </div>
+        <div class="wrapper">
+            <h2>People Who Are Invited:</h2>
+            <ul>
+                {% for everyone in everyone %}
+                    <li>{{ everyone.name }}</li>
+                {% else %}
+                    <li>No one has confirmed yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <script src="/static/js/invited.js"></script>
+    </body>
+</html>

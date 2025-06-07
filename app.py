@@ -4,31 +4,26 @@ import mysql.connector
 import os
 
 app = Flask(__name__)
-app.secret_key = "admin"
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "supersecretkey")
 
+# Mail config - use environment variables for security
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'vincenavarrete3@gmail.com'      # your email
-app.config['MAIL_PASSWORD'] = 'Bbkateilove123'       # your app password or email password
-app.config['MAIL_DEFAULT_SENDER'] = ('Vince Navarrete', 'vincenavarrete3@gmail.com')
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')  # e.g. vincenavarrete3@gmail.com
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')  # your app password
+app.config['MAIL_DEFAULT_SENDER'] = ('Vince Navarrete', app.config['MAIL_USERNAME'])
 
 mail = Mail(app)
 
-conn = mysql.connector.connect(
-    host=os.environ['DB_HOST'],
-    port=os.environ.get('DB_PORT', 3306),
-    user=os.environ['DB_USER'],
-    password=os.environ['DB_PASSWORD'],
-    database=os.environ['DB_NAME']
-)
-
+# Use environment variables or fallback to local defaults
 def get_connection():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="admin",
-        database="einvites"
+        host=os.environ.get('DB_HOST', 'localhost'),
+        port=int(os.environ.get('DB_PORT', 3306)),
+        user=os.environ.get('DB_USER', 'root'),
+        password=os.environ.get('DB_PASSWORD', 'admin'),
+        database=os.environ.get('DB_NAME', 'einvites')
     )
 
 @app.route("/")
@@ -79,7 +74,6 @@ def login():
     except Exception as e:
         flash("Something went wrong: " + str(e), "error")
         return redirect(url_for("loginPage"))
-
 
 @app.route("/home")
 def homePage():
@@ -239,7 +233,6 @@ def admin_dashboard():
         flash(f"Error loading admin data: {e}", "error")
         return redirect(url_for("loginPage"))
 
-
 @app.route('/admin/invite', methods=['POST'])
 def admin_invite():
     name = request.form.get('name')
@@ -256,7 +249,6 @@ def admin_invite():
         flash(f"Could not invite user: {e}", "error")
     return redirect(url_for('admin_dashboard'))
 
-
 @app.route('/admin/send_email', methods=['POST'])
 def admin_send_email():
     email = request.form.get('email')
@@ -264,7 +256,6 @@ def admin_send_email():
         flash("Email is missing.", "error")
         return redirect(url_for('admin_dashboard'))
 
-    # Your email sending logic here, e.g.:
     try:
         send_email_to_guest(email)
         flash(f"Email sent to {email}", "success")
@@ -272,7 +263,6 @@ def admin_send_email():
         flash(f"Failed to send email to {email}: {str(e)}", "error")
 
     return redirect(url_for('admin_dashboard'))
-
 
 def send_email_to_guest(email):
     invitation_url = url_for('invitation_page', email=email, _external=True)

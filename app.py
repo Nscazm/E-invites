@@ -1,6 +1,7 @@
 from flask import *
 from flask_mail import *
 import mysql.connector
+import os
 
 app = Flask(__name__)
 app.secret_key = "admin"
@@ -13,6 +14,14 @@ app.config['MAIL_PASSWORD'] = 'Bbkateilove123'       # your app password or emai
 app.config['MAIL_DEFAULT_SENDER'] = ('Vince Navarrete', 'vincenavarrete3@gmail.com')
 
 mail = Mail(app)
+
+conn = mysql.connector.connect(
+    host=os.environ['DB_HOST'],
+    port=os.environ.get('DB_PORT', 3306),
+    user=os.environ['DB_USER'],
+    password=os.environ['DB_PASSWORD'],
+    database=os.environ['DB_NAME']
+)
 
 def get_connection():
     return mysql.connector.connect(

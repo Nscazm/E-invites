@@ -1,0 +1,132 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f2fc;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Toggle Button */
+#toggle-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    background: #8e24aa;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 1100;
+}
+
+#toggle-btn:hover {
+    background-color: #6a1b9a;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100%;
+    background-color: #8e24aa;
+    color: white;
+    padding-top: 60px;
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 15px 20px;
+}
+
+.sidebar ul li button {
+    font-size: 15px;
+    color: white;
+    text-decoration: none;
+    background: #8e24aa;
+    box-shadow: none;
+    border: none;
+    width: 20vh;
+    height: 5vh;
+    border-radius: 10px;
+}
+
+.sidebar ul li button:hover {
+    background: #6a1b9a;
+    cursor: pointer;
+}
+
+/* Wrapper Card */
+.wrapper {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    z-index: 1;
+    position: relative;
+}
+
+.wrapper h2 {
+    color: #6a1b9a;
+    margin-bottom: 10px;
+}
+
+.wrapper h3 {
+    color: #8e24aa;
+    margin-bottom: 20px;
+}
+
+.wrapper p {
+    color: #555;
+    line-height: 1.6;
+}
+
+.wrapper button{
+    padding: 5px;
+    margin: 5px;
+    border: none;
+    border-radius: 10px;
+    width: 20vh;
+    height: 5vh;
+}
+
+
+.wrapper .yes{
+    background: #43aa24;
+    color: antiquewhite;
+}
+
+.wrapper .yes:hover{
+    background: #276015;
+    cursor: pointer;
+}
+.wrapper .no{
+    background: rgb(199, 33, 33);
+    color: aliceblue;
+}
+.wrapper .no:hover{
+    background: rgb(120, 20, 20);;
+    cursor: pointer;
+}
